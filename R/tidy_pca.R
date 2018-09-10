@@ -59,7 +59,8 @@ tidy_pca <- function(data, ..., doCenter = TRUE, doScale = TRUE) {
       pc_frac = purrr::map(
         pca,
         ~ .$sdev %>%
-          dplyr::tibble(sig = ., sig_frac = normsum(.))
+          dplyr::tibble(variance = ., variance_fraction = normsum(.)) %>%
+          rowid_to_column(var = "dimension")
       )
     ) %>%
     dplyr::select(-data)
